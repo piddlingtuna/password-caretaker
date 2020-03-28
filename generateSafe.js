@@ -1,23 +1,25 @@
-const passwordSafe = require('./isSafe');
-const fs = require('fs');
+import fs from 'fs';
+import { passwordSafe } from './passwordSafe.js';
 
-const generatePassword = (numWords, verifer) => {
-    //const fs = require('fs');
+export const generateSafe = async (numWords, verifer) => {
     const commonWords = fs.readFileSync('allCommon.txt').toString().split(`\n`);
-    let password = '';
-    do {
-        password = '';
-        for (let i = 0; i < numWords; i++) {
-            const index = Math.floor(Math.random() * commonWords.length);
-            password += commonWords[index];
-            password += ' ';
-        }
-        console.log(password);
-    } while(!passwordSafe(password, verifer));
+    let password = ''
+    let safe = false;
+    while (!safe) {
+        password = generatePassword(numWords, commonWords);
+        safe = await passwordSafe(password, verifer);
+    }
     return password;
 }
 
-const numWords = 1;
-const verifer = 'facebook';
-const password = generatePassword(numWords, verifer);
-console.log(password);
+const generatePassword = (numWords, commonWords) => {
+    let password = '';
+    for (let i = 0; i < numWords; i++) {
+        const index = Math.floor(Math.random() * commonWords.length);
+        password += commonWords[index];
+        if (i != numWords - 1) {
+            password += ' ';
+        }
+    }
+    return password;
+}
