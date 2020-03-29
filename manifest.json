@@ -2,10 +2,13 @@
     "name": "Password Caretaker",
     "version": "0.1",
     "description": "COMP6841 Something Awesome",
+    "permissions": ["activeTab", "declarativeContent", "storage"],
+    "options_page": "options.html",
     "background": {
-
+      "scripts": ["background.js"],
+      "persistent": false
     },
-    "page_actions": {
+    "page_action": {
       "default_popup": "popup.html",
       "default_icon": {
         "16": "icons/favicon-16x16.png",

@@ -1,9 +1,10 @@
 import { passwordSafe } from './passwordSafe.js';
 
 const password = 'fragrance';
-const verifer = 'facebook';
+const username = 'Gribbenator'
+const verifier = 'facebook';
 
-passwordSafe(password, verifer)
+passwordSafe(password, username, verifier)
 .then(safe => {
     if (safe) {
         console.log(`${password} is a SAFE password.`);

@@ -5,7 +5,7 @@ import jshashes from 'jshashes';
 const minPasswordLength = 8;
 const maxCharacterRepeats = 4;
 
-export const passwordSafe = async (password, verifer) => {
+export const passwordSafe = async (password, username, verifier) => {
     if (password.length < minPasswordLength) {
         // console.log('Password is too short.')
         return false;
@@ -14,7 +14,11 @@ export const passwordSafe = async (password, verifer) => {
         // console.log('Password is too short removing consecutive spaces.');
         return false;
     }
-    if (password.toLowerCase().includes(verifer.toLowerCase())) {
+    if (password.toLowerCase().includes(username.toLowerCase())) {
+        // console.log('Password is associated with username.');
+        return false;
+    }
+    if (password.toLowerCase().includes(verifier.toLowerCase())) {
         // console.log('Password is associated with verifier.');
         return false;
     }

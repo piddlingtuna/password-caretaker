@@ -1,13 +1,13 @@
 import { passwordSafe } from './passwordSafe.js';
 
-const charcters = ` !@#$%^&*()-=_+[];':",.<>[]{}|~?/qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890`;
+const charcters = ` ~!@#$%^&*()_+\`-=[]\\{}|;':",./<>?qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890`;
 
-export const generateOnce = async (length, verifer) => {
+export const generateOnce = async (length, username, verifier) => {
     let password = ''
     let safe = false;
     while (!safe) {
         password = generatePassword(length);
-        safe = await passwordSafe(password, verifer);
+        safe = await passwordSafe(password, username, verifier);
     }
     return password;
 }

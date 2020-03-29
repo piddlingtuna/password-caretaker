@@ -1,9 +1,10 @@
 import { generateSafe } from './generateSafe.js';
 
 const numWords = 4;
-const verifer = 'facebook';
+const username = 'Gribbenator'
+const verifier = 'facebook';
 
-generateSafe(numWords, verifer)
+generateSafe(numWords, username, verifier)
 .then(password => {
     console.log(password);
 })
