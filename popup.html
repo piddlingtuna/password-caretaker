@@ -1,16 +1,41 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <style>
-        button {
-            height: 30px;
-            width: 30px;
-            outline: none;
-        }
-        </style>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/main.css">
     </head>
     <body>
-        <button id="changeColor"></button>
+        <div class="popup">
+            <div class="field">
+                <label class="label">Username</label>
+                <div class="control">
+                    <input id="username-input" class="input" type="text" placeholder="username">
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Verifier</label>
+                <div class="control">
+                    <input id="verifier-input" class="input" type="text" placeholder="verifier">
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Password</label>
+                <div class="control">
+                    <input id="password-input" class="input" type="password" placeholder="password">
+                </div>
+            </div>
+
+            <div class="field">
+                <p class="control">
+                    <button class="button is-success">
+                    Check
+                    </button>
+                </p>
+            </div>
+        </div>
+        <script src="/popup.js"></script>
     </body>
-    <script src="popup.js"></script>
 </html>
