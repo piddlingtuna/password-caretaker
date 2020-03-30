@@ -1,7 +1,7 @@
-const fs = require('fs');
-const passwordSafe = require('./passwordSafe.js');
+import fs from 'fs';
+import { passwordSafe } from './passwordSafe.js';
 
-const generateSafe = async (numWords, username, verifier) => {
+export const generateSafe = async (numWords, username, verifier) => {
     const commonWords = fs.readFileSync('allCommon.txt').toString().split(`\n`);
     let password = ''
     let safe = false;
@@ -23,5 +23,3 @@ const generatePassword = (numWords, commonWords) => {
     }
     return password;
 }
-
-module.exports = generateSafe;

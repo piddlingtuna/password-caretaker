@@ -1,11 +1,11 @@
-const fs = require('fs');
-const axios = require('axios');
-const jshashes = require('jshashes');
+import fs from 'fs';
+import axios from 'axios';
+import jshashes from 'jshashes';
 
 const minPasswordLength = 8;
 const maxCharacterRepeats = 4;
 
-const passwordSafe = async (password, username, verifier) => {
+export const passwordSafe = async (password, username, verifier) => {
     if (password.length < minPasswordLength) {
         // console.log('Password is too short.')
         return false;
@@ -71,5 +71,3 @@ const wasBreached = async (password) => {
     }
     return false;
 }
-
-module.exports = passwordSafe;
