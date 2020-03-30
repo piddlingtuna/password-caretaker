@@ -2,7 +2,7 @@ import { passwordSafe } from './passwordSafe.js';
 
 const charcters = ` ~!@#$%^&*()_+\`-=[]\\{}|;':",./<>?qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890`;
 
-export const generateOnce = async (length, username, verifier) => {
+const generateOnce = async (length, username, verifier) => {
     let password = ''
     let safe = false;
     while (!safe) {
@@ -20,3 +20,5 @@ const generatePassword = (length) => {
     }
     return password;
 }
+
+module.exports = generateOnce;
