@@ -1,12 +1,12 @@
-const fs = require('fs');
 const passwordSafe = require('./passwordSafe.js');
 
+const allCommon = require('./allCommon.js');
+
 const generateSafe = async (numWords, username, verifier) => {
-    const commonWords = fs.readFileSync('allCommon.txt').toString().split(`\n`);
     let password = ''
     let safe = false;
     while (!safe) {
-        password = generatePassword(numWords, commonWords);
+        password = generatePassword(numWords, allCommon);
         safe = await passwordSafe(password, username, verifier);
     }
     return password;

@@ -49,10 +49,15 @@ checkSafe.addEventListener('click', () => {
     child.innerText = `Please enter a verifier.`;
   } else if (!password) {
     child.innerText = `Please enter a password.`;
-  } else if (passwordSafe(password, username, verifier)) {
-    child.innerText =  `Your password is safe.`;
   } else {
-    child.innerText = `Your password is NOT safe`;
+    passwordSafe(password, username, verifier)
+    .then((safe) => {
+      if (safe) {
+        child.innerText =  `Your password is safe.`;
+      } else {
+        child.innerText = `Your password is NOT safe`;
+      }
+    });
   }
   parent.appendChild(child);
 });
@@ -70,7 +75,10 @@ genSafe.addEventListener('click', () => {
   } else if (!verifier) {
     child.innerText = `Please enter a verifier`;
   } else {
-    child.innerText = generateSafe(7, username, verifier);
+    generateSafe(7, username, verifier)
+    .then((password) => {
+      child.innerText = password;
+    });
   }
   parent.appendChild(child);
 });

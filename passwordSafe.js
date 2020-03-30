@@ -1,6 +1,7 @@
-const fs = require('fs');
 const axios = require('axios');
 const jshashes = require('jshashes');
+
+const longCommon = require('./longCommon.js');
 
 const minPasswordLength = 8;
 const maxCharacterRepeats = 4;
@@ -47,9 +48,8 @@ const manyRepeats = (password) => {
 
 const isCommon = (password) => {
     password = password.toLowerCase();
-    const commonWords = fs.readFileSync('longCommon.txt').toString().split(`\n`);
-    for (let i = 0; i < commonWords.length; i++) {
-        if (password == commonWords[i]) {
+    for (let i = 0; i < longCommon.length; i++) {
+        if (password == longCommon[i]) {
             return true;
         }
     }
