@@ -7882,11 +7882,11 @@ const passwordSafe = async (password, username, verifier) => {
         // console.log('Password is too short removing consecutive spaces.');
         return false;
     }
-    if (password.toLowerCase().includes(username.toLowerCase())) {
+    if (notUsername(password, username)) {
         // console.log('Password is associated with username.');
         return false;
     }
-    if (password.toLowerCase().includes(verifier.toLowerCase())) {
+    if (notVerifier(password, verifier)) {
         // console.log('Password is associated with verifier.');
         return false;
     }
@@ -7902,6 +7902,19 @@ const passwordSafe = async (password, username, verifier) => {
     if (breached) {
         // console.log('Password was found in a prior data breach.');
         return false;
+    }
+    return true;
+}
+
+const notUsername = (password, username) => {
+    return password.toLowerCase().includes(username.toLowerCase());
+}
+
+const notVerifier = (password, verifier) => {
+    for (let i = 0; i < verifier.length; i++) {
+        if (password.toLowerCase().includes(verifier[i].toLowerCase())) {
+            return false;
+        }
     }
     return true;
 }
@@ -7939,12 +7952,21 @@ const wasBreached = async (password) => {
     return false;
 }
 
+passwordSafe('tfg b6t7tf tft', 'yo', ['unsw', 'web']).then((result) => {console.log(result)});
+
 module.exports = passwordSafe;
+
 
 },{"./longCommon.js":4,"axios":5,"jshashes":31}],33:[function(require,module,exports){
 const passwordSafe = require('./passwordSafe.js');
 const generateSafe = require('./generateSafe.js');
 const generateOne = require('./generateOne.js');
+
+let verifier = ""
+chrome.storage.sync.get(['title'], (response) => {
+  verifier = response.title;
+  console.log(verifier)
+});
 
 const usernameInput = document.getElementById('username-input');
 usernameInput.addEventListener('input', () => {
@@ -7954,17 +7976,6 @@ usernameInput.addEventListener('input', () => {
   } else {
     usernameInput.classList.add('is-danger');
     usernameInput.classList.remove('is-success');
-  }
-});
-
-const verifierInput = document.getElementById('verifier-input');
-verifierInput.addEventListener('input', () => {
-  if (verifierInput.value) {
-    verifierInput.classList.add('is-success');
-    verifierInput.classList.remove('is-danger');
-  } else {
-    verifierInput.classList.add('is-danger');
-    verifierInput.classList.remove('is-success');
   }
 });
 
@@ -7985,12 +7996,9 @@ checkSafe.addEventListener('click', () => {
   removeChildren(parent);
   const child = document.createElement('div');
   const username = usernameInput.value;
-  const verifier = verifierInput.value;
   const password = passwordInput.value;
   if (!username) {
     child.innerText = `Please enter a username.`;
-  } else if (!verifier) {
-    child.innerText = `Please enter a verifier.`;
   } else if (!password) {
     child.innerText = `Please enter a password.`;
   } else {
@@ -8012,11 +8020,8 @@ genSafe.addEventListener('click', () => {
   removeChildren(parent);
   const child = document.createElement('div');
   const username = usernameInput.value;
-  const verifier = verifierInput.value;
   if (!username) {
     child.innerText = `Please enter a username`;
-  } else if (!verifier) {
-    child.innerText = `Please enter a verifier`;
   } else {
     generateSafe(7, username, verifier)
     .then((password) => {
@@ -8032,11 +8037,8 @@ genOne.addEventListener('click', () => {
   removeChildren(parent);
   const child = document.createElement('div');
   const username = usernameInput.value;
-  const verifier = verifierInput.value;
   if (!username) {
     child.innerText = `Please enter a username`;
-  } else if (!verifier) {
-    child.innerText = `Please enter a verifier`;
   } else {
     generateOne(20, username, verifier)
     .then((password) => {

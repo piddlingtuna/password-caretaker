@@ -15,11 +15,11 @@ const passwordSafe = async (password, username, verifier) => {
         // console.log('Password is too short removing consecutive spaces.');
         return false;
     }
-    if (password.toLowerCase().includes(username.toLowerCase())) {
+    if (notUsername(password, username)) {
         // console.log('Password is associated with username.');
         return false;
     }
-    if (password.toLowerCase().includes(verifier.toLowerCase())) {
+    if (notVerifier(password, verifier)) {
         // console.log('Password is associated with verifier.');
         return false;
     }
@@ -35,6 +35,19 @@ const passwordSafe = async (password, username, verifier) => {
     if (breached) {
         // console.log('Password was found in a prior data breach.');
         return false;
+    }
+    return true;
+}
+
+const notUsername = (password, username) => {
+    return password.toLowerCase().includes(username.toLowerCase());
+}
+
+const notVerifier = (password, verifier) => {
+    for (let i = 0; i < verifier.length; i++) {
+        if (password.toLowerCase().includes(verifier[i].toLowerCase())) {
+            return false;
+        }
     }
     return true;
 }
@@ -73,3 +86,4 @@ const wasBreached = async (password) => {
 }
 
 module.exports = passwordSafe;
+

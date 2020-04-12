@@ -2,6 +2,12 @@ const passwordSafe = require('./passwordSafe.js');
 const generateSafe = require('./generateSafe.js');
 const generateOne = require('./generateOne.js');
 
+let verifier = ""
+chrome.storage.sync.get(['title'], (response) => {
+  verifier = response.title;
+  console.log(verifier)
+});
+
 const usernameInput = document.getElementById('username-input');
 usernameInput.addEventListener('input', () => {
   if (usernameInput.value) {
@@ -10,17 +16,6 @@ usernameInput.addEventListener('input', () => {
   } else {
     usernameInput.classList.add('is-danger');
     usernameInput.classList.remove('is-success');
-  }
-});
-
-const verifierInput = document.getElementById('verifier-input');
-verifierInput.addEventListener('input', () => {
-  if (verifierInput.value) {
-    verifierInput.classList.add('is-success');
-    verifierInput.classList.remove('is-danger');
-  } else {
-    verifierInput.classList.add('is-danger');
-    verifierInput.classList.remove('is-success');
   }
 });
 
@@ -41,12 +36,9 @@ checkSafe.addEventListener('click', () => {
   removeChildren(parent);
   const child = document.createElement('div');
   const username = usernameInput.value;
-  const verifier = verifierInput.value;
   const password = passwordInput.value;
   if (!username) {
     child.innerText = `Please enter a username.`;
-  } else if (!verifier) {
-    child.innerText = `Please enter a verifier.`;
   } else if (!password) {
     child.innerText = `Please enter a password.`;
   } else {
@@ -68,11 +60,8 @@ genSafe.addEventListener('click', () => {
   removeChildren(parent);
   const child = document.createElement('div');
   const username = usernameInput.value;
-  const verifier = verifierInput.value;
   if (!username) {
     child.innerText = `Please enter a username`;
-  } else if (!verifier) {
-    child.innerText = `Please enter a verifier`;
   } else {
     generateSafe(7, username, verifier)
     .then((password) => {
@@ -88,11 +77,8 @@ genOne.addEventListener('click', () => {
   removeChildren(parent);
   const child = document.createElement('div');
   const username = usernameInput.value;
-  const verifier = verifierInput.value;
   if (!username) {
     child.innerText = `Please enter a username`;
-  } else if (!verifier) {
-    child.innerText = `Please enter a verifier`;
   } else {
     generateOne(20, username, verifier)
     .then((password) => {
