@@ -17,11 +17,7 @@ chrome.runtime.onMessage.addListener((request) => {
       title: request.title.split(" ")
     });
   } else if (request.type === "test") {
-    let title = []
-    chrome.storage.sync.get(['title'], (response) => {
-      title = response.title.split(" ")
-    })
-    passwordSafe(request.password, request.username, title)
+    passwordSafe(request.password, request.username, request.title.split(" "))
     .then((safe) => {
       if (!safe) {
         chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {

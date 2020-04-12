@@ -18,11 +18,8 @@ chrome.runtime.onMessage.addListener((request) => {
       title: request.title.split(" ")
     });
   } else if (request.type === "test") {
-    let title = ""
-    chrome.storage.sync.get(['title'], (response) => {
-      title = response.title;
-    })
-    passwordSafe(request.password, request.username, title)
+    alert(request.title);
+    passwordSafe(request.password, request.username, request.title.split(" "))
     .then((safe) => {
       if (!safe) {
         chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
@@ -4554,10 +4551,10 @@ const notUsername = (password, username) => {
 const notVerifier = (password, verifier) => {
     for (let i = 0; i < verifier.length; i++) {
         if (password.toLowerCase().includes(verifier[i].toLowerCase())) {
-            return false;
+            return true;
         }
     }
-    return true;
+    return false;
 }
 
 const manyRepeats = (password) => {
@@ -4593,10 +4590,7 @@ const wasBreached = async (password) => {
     return false;
 }
 
-passwordSafe('tfg b6t7tf tft', 'yo', ['unsw', 'web']).then((result) => {console.log(result)});
-
 module.exports = passwordSafe;
-
 
 },{"./longCommon.js":2,"axios":3,"jshashes":29}],31:[function(require,module,exports){
 // shim for using process in browser

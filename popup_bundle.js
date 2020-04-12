@@ -7913,10 +7913,10 @@ const notUsername = (password, username) => {
 const notVerifier = (password, verifier) => {
     for (let i = 0; i < verifier.length; i++) {
         if (password.toLowerCase().includes(verifier[i].toLowerCase())) {
-            return false;
+            return true;
         }
     }
-    return true;
+    return false;
 }
 
 const manyRepeats = (password) => {
@@ -7952,20 +7952,16 @@ const wasBreached = async (password) => {
     return false;
 }
 
-passwordSafe('tfg b6t7tf tft', 'yo', ['unsw', 'web']).then((result) => {console.log(result)});
-
 module.exports = passwordSafe;
-
 
 },{"./longCommon.js":4,"axios":5,"jshashes":31}],33:[function(require,module,exports){
 const passwordSafe = require('./passwordSafe.js');
 const generateSafe = require('./generateSafe.js');
 const generateOne = require('./generateOne.js');
 
-let verifier = ""
+let verifier = [];
 chrome.storage.sync.get(['title'], (response) => {
   verifier = response.title;
-  console.log(verifier)
 });
 
 const usernameInput = document.getElementById('username-input');
@@ -8054,22 +8050,6 @@ const removeChildren = (element) => {
   }
 }
 
-
-/*let changeColor = document.getElementById('changeColor');
-
-chrome.storage.sync.get('color', function(data) {
-  changeColor.style.backgroundColor = data.color;
-  changeColor.setAttribute('value', data.color);
-});
-
-changeColor.onclick = function(element) {
-    let color = element.target.value;
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.executeScript(
-          tabs[0].id,
-          {code: 'document.body.style.backgroundColor = "' + color + '";'});
-    });
-  };*/
 },{"./generateOne.js":2,"./generateSafe.js":3,"./passwordSafe.js":32}],34:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};

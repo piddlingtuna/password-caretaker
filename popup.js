@@ -2,10 +2,9 @@ const passwordSafe = require('./passwordSafe.js');
 const generateSafe = require('./generateSafe.js');
 const generateOne = require('./generateOne.js');
 
-let verifier = []
+let verifier = [];
 chrome.storage.sync.get(['title'], (response) => {
   verifier = response.title;
-  console.log(verifier)
 });
 
 const usernameInput = document.getElementById('username-input');
@@ -93,20 +92,3 @@ const removeChildren = (element) => {
     element.removeChild(element.lastChild);
   }
 }
-
-
-/*let changeColor = document.getElementById('changeColor');
-
-chrome.storage.sync.get('color', function(data) {
-  changeColor.style.backgroundColor = data.color;
-  changeColor.setAttribute('value', data.color);
-});
-
-changeColor.onclick = function(element) {
-    let color = element.target.value;
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.executeScript(
-          tabs[0].id,
-          {code: 'document.body.style.backgroundColor = "' + color + '";'});
-    });
-  };*/
