@@ -3340,6 +3340,32 @@ module.exports = allCommon;
 },{}],2:[function(require,module,exports){
 const passwordSafe = require('./passwordSafe.js');
 
+const charcters = ` ~!@#$%^&*()_+\`-=[]\\{}|;':",./<>?qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890`;
+
+const generateOnce = async (length, username, verifier) => {
+    let password = ''
+    let safe = false;
+    while (!safe) {
+        password = generatePassword(length);
+        safe = await passwordSafe(password, username, verifier);
+    }
+    return password;
+}
+
+const generatePassword = (length) => {
+    let password = '';
+    for (let i = 0; i < length; i++) {
+        const index = Math.floor(Math.random() * charcters.length);
+        password += charcters[index];
+    }
+    return password;
+}
+
+module.exports = generateOnce;
+
+},{"./passwordSafe.js":32}],3:[function(require,module,exports){
+const passwordSafe = require('./passwordSafe.js');
+
 const allCommon = require('./allCommon.js');
 
 const generateSafe = async (numWords, username, verifier) => {
@@ -3366,7 +3392,7 @@ const generatePassword = (numWords, commonWords) => {
 
 module.exports = generateSafe;
 
-},{"./allCommon.js":1,"./passwordSafe.js":31}],3:[function(require,module,exports){
+},{"./allCommon.js":1,"./passwordSafe.js":32}],4:[function(require,module,exports){
 const longCommon = [
     'information',        'business',        'services',
     'products',           'available',       'copyright',
@@ -4514,9 +4540,9 @@ const longCommon = [
 
 module.exports = longCommon;
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 module.exports = require('./lib/axios');
-},{"./lib/axios":6}],5:[function(require,module,exports){
+},{"./lib/axios":7}],6:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -4698,7 +4724,7 @@ module.exports = function xhrAdapter(config) {
   });
 };
 
-},{"../core/buildFullPath":12,"../core/createError":13,"./../core/settle":17,"./../helpers/buildURL":21,"./../helpers/cookies":23,"./../helpers/isURLSameOrigin":25,"./../helpers/parseHeaders":27,"./../utils":29}],6:[function(require,module,exports){
+},{"../core/buildFullPath":13,"../core/createError":14,"./../core/settle":18,"./../helpers/buildURL":22,"./../helpers/cookies":24,"./../helpers/isURLSameOrigin":26,"./../helpers/parseHeaders":28,"./../utils":30}],7:[function(require,module,exports){
 'use strict';
 
 var utils = require('./utils');
@@ -4753,7 +4779,7 @@ module.exports = axios;
 // Allow use of default import syntax in TypeScript
 module.exports.default = axios;
 
-},{"./cancel/Cancel":7,"./cancel/CancelToken":8,"./cancel/isCancel":9,"./core/Axios":10,"./core/mergeConfig":16,"./defaults":19,"./helpers/bind":20,"./helpers/spread":28,"./utils":29}],7:[function(require,module,exports){
+},{"./cancel/Cancel":8,"./cancel/CancelToken":9,"./cancel/isCancel":10,"./core/Axios":11,"./core/mergeConfig":17,"./defaults":20,"./helpers/bind":21,"./helpers/spread":29,"./utils":30}],8:[function(require,module,exports){
 'use strict';
 
 /**
@@ -4774,7 +4800,7 @@ Cancel.prototype.__CANCEL__ = true;
 
 module.exports = Cancel;
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 'use strict';
 
 var Cancel = require('./Cancel');
@@ -4833,14 +4859,14 @@ CancelToken.source = function source() {
 
 module.exports = CancelToken;
 
-},{"./Cancel":7}],9:[function(require,module,exports){
+},{"./Cancel":8}],10:[function(require,module,exports){
 'use strict';
 
 module.exports = function isCancel(value) {
   return !!(value && value.__CANCEL__);
 };
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -4936,7 +4962,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = Axios;
 
-},{"../helpers/buildURL":21,"./../utils":29,"./InterceptorManager":11,"./dispatchRequest":14,"./mergeConfig":16}],11:[function(require,module,exports){
+},{"../helpers/buildURL":22,"./../utils":30,"./InterceptorManager":12,"./dispatchRequest":15,"./mergeConfig":17}],12:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -4990,7 +5016,7 @@ InterceptorManager.prototype.forEach = function forEach(fn) {
 
 module.exports = InterceptorManager;
 
-},{"./../utils":29}],12:[function(require,module,exports){
+},{"./../utils":30}],13:[function(require,module,exports){
 'use strict';
 
 var isAbsoluteURL = require('../helpers/isAbsoluteURL');
@@ -5012,7 +5038,7 @@ module.exports = function buildFullPath(baseURL, requestedURL) {
   return requestedURL;
 };
 
-},{"../helpers/combineURLs":22,"../helpers/isAbsoluteURL":24}],13:[function(require,module,exports){
+},{"../helpers/combineURLs":23,"../helpers/isAbsoluteURL":25}],14:[function(require,module,exports){
 'use strict';
 
 var enhanceError = require('./enhanceError');
@@ -5032,7 +5058,7 @@ module.exports = function createError(message, config, code, request, response) 
   return enhanceError(error, config, code, request, response);
 };
 
-},{"./enhanceError":15}],14:[function(require,module,exports){
+},{"./enhanceError":16}],15:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -5113,7 +5139,7 @@ module.exports = function dispatchRequest(config) {
   });
 };
 
-},{"../cancel/isCancel":9,"../defaults":19,"./../utils":29,"./transformData":18}],15:[function(require,module,exports){
+},{"../cancel/isCancel":10,"../defaults":20,"./../utils":30,"./transformData":19}],16:[function(require,module,exports){
 'use strict';
 
 /**
@@ -5157,7 +5183,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
   return error;
 };
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 'use strict';
 
 var utils = require('../utils');
@@ -5232,7 +5258,7 @@ module.exports = function mergeConfig(config1, config2) {
   return config;
 };
 
-},{"../utils":29}],17:[function(require,module,exports){
+},{"../utils":30}],18:[function(require,module,exports){
 'use strict';
 
 var createError = require('./createError');
@@ -5259,7 +5285,7 @@ module.exports = function settle(resolve, reject, response) {
   }
 };
 
-},{"./createError":13}],18:[function(require,module,exports){
+},{"./createError":14}],19:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -5281,7 +5307,7 @@ module.exports = function transformData(data, headers, fns) {
   return data;
 };
 
-},{"./../utils":29}],19:[function(require,module,exports){
+},{"./../utils":30}],20:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -5382,7 +5408,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 module.exports = defaults;
 
 }).call(this,require('_process'))
-},{"./adapters/http":5,"./adapters/xhr":5,"./helpers/normalizeHeaderName":26,"./utils":29,"_process":33}],20:[function(require,module,exports){
+},{"./adapters/http":6,"./adapters/xhr":6,"./helpers/normalizeHeaderName":27,"./utils":30,"_process":34}],21:[function(require,module,exports){
 'use strict';
 
 module.exports = function bind(fn, thisArg) {
@@ -5395,7 +5421,7 @@ module.exports = function bind(fn, thisArg) {
   };
 };
 
-},{}],21:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -5468,7 +5494,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
   return url;
 };
 
-},{"./../utils":29}],22:[function(require,module,exports){
+},{"./../utils":30}],23:[function(require,module,exports){
 'use strict';
 
 /**
@@ -5484,7 +5510,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
     : baseURL;
 };
 
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -5539,7 +5565,7 @@ module.exports = (
     })()
 );
 
-},{"./../utils":29}],24:[function(require,module,exports){
+},{"./../utils":30}],25:[function(require,module,exports){
 'use strict';
 
 /**
@@ -5555,7 +5581,7 @@ module.exports = function isAbsoluteURL(url) {
   return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
 };
 
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -5625,7 +5651,7 @@ module.exports = (
     })()
 );
 
-},{"./../utils":29}],26:[function(require,module,exports){
+},{"./../utils":30}],27:[function(require,module,exports){
 'use strict';
 
 var utils = require('../utils');
@@ -5639,7 +5665,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
   });
 };
 
-},{"../utils":29}],27:[function(require,module,exports){
+},{"../utils":30}],28:[function(require,module,exports){
 'use strict';
 
 var utils = require('./../utils');
@@ -5694,7 +5720,7 @@ module.exports = function parseHeaders(headers) {
   return parsed;
 };
 
-},{"./../utils":29}],28:[function(require,module,exports){
+},{"./../utils":30}],29:[function(require,module,exports){
 'use strict';
 
 /**
@@ -5723,7 +5749,7 @@ module.exports = function spread(callback) {
   };
 };
 
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 'use strict';
 
 var bind = require('./helpers/bind');
@@ -6069,7 +6095,7 @@ module.exports = {
   trim: trim
 };
 
-},{"./helpers/bind":20}],30:[function(require,module,exports){
+},{"./helpers/bind":21}],31:[function(require,module,exports){
 (function (global){
 /**
  * jshashes - https://github.com/h2non/jshashes
@@ -7838,7 +7864,7 @@ module.exports = {
 }()); // IIFE
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],31:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 const axios = require('axios');
 const jshashes = require('jshashes');
 
@@ -7915,9 +7941,10 @@ const wasBreached = async (password) => {
 
 module.exports = passwordSafe;
 
-},{"./longCommon.js":3,"axios":4,"jshashes":30}],32:[function(require,module,exports){
+},{"./longCommon.js":4,"axios":5,"jshashes":31}],33:[function(require,module,exports){
 const passwordSafe = require('./passwordSafe.js');
 const generateSafe = require('./generateSafe.js');
+const generateOne = require('./generateOne.js');
 
 const usernameInput = document.getElementById('username-input');
 usernameInput.addEventListener('input', () => {
@@ -7954,7 +7981,6 @@ passwordInput.addEventListener('input', () => {
 
 const checkSafe = document.getElementById('check-safe');
 checkSafe.addEventListener('click', () => {
-  console.log('checkSafe click');
   const parent = document.getElementById('check-safe-result');
   removeChildren(parent);
   const child = document.createElement('div');
@@ -7982,7 +8008,6 @@ checkSafe.addEventListener('click', () => {
 
 const genSafe = document.getElementById('gen-safe');
 genSafe.addEventListener('click', () => {
-  console.log('genSafe click');
   const parent = document.getElementById('gen-safe-result');
   removeChildren(parent);
   const child = document.createElement('div');
@@ -8000,6 +8025,26 @@ genSafe.addEventListener('click', () => {
   }
   parent.appendChild(child);
 });
+
+const genOne = document.getElementById('gen-one');
+genOne.addEventListener('click', () => {
+  const parent = document.getElementById('gen-one-result');
+  removeChildren(parent);
+  const child = document.createElement('div');
+  const username = usernameInput.value;
+  const verifier = verifierInput.value;
+  if (!username) {
+    child.innerText = `Please enter a username`;
+  } else if (!verifier) {
+    child.innerText = `Please enter a verifier`;
+  } else {
+    generateOne(20, username, verifier)
+    .then((password) => {
+      child.innerText = password;
+    });
+  }
+  parent.appendChild(child);
+})
 
 const removeChildren = (element) => {
   while (element.firstChild) {
@@ -8023,7 +8068,7 @@ changeColor.onclick = function(element) {
           {code: 'document.body.style.backgroundColor = "' + color + '";'});
     });
   };*/
-},{"./generateSafe.js":2,"./passwordSafe.js":31}],33:[function(require,module,exports){
+},{"./generateOne.js":2,"./generateSafe.js":3,"./passwordSafe.js":32}],34:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -8209,4 +8254,4 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}]},{},[32]);
+},{}]},{},[33]);

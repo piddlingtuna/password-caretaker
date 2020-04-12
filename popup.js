@@ -1,5 +1,6 @@
 const passwordSafe = require('./passwordSafe.js');
 const generateSafe = require('./generateSafe.js');
+const generateOne = require('./generateOne.js');
 
 const usernameInput = document.getElementById('username-input');
 usernameInput.addEventListener('input', () => {
@@ -36,7 +37,6 @@ passwordInput.addEventListener('input', () => {
 
 const checkSafe = document.getElementById('check-safe');
 checkSafe.addEventListener('click', () => {
-  console.log('checkSafe click');
   const parent = document.getElementById('check-safe-result');
   removeChildren(parent);
   const child = document.createElement('div');
@@ -64,7 +64,6 @@ checkSafe.addEventListener('click', () => {
 
 const genSafe = document.getElementById('gen-safe');
 genSafe.addEventListener('click', () => {
-  console.log('genSafe click');
   const parent = document.getElementById('gen-safe-result');
   removeChildren(parent);
   const child = document.createElement('div');
@@ -82,6 +81,26 @@ genSafe.addEventListener('click', () => {
   }
   parent.appendChild(child);
 });
+
+const genOne = document.getElementById('gen-one');
+genOne.addEventListener('click', () => {
+  const parent = document.getElementById('gen-one-result');
+  removeChildren(parent);
+  const child = document.createElement('div');
+  const username = usernameInput.value;
+  const verifier = verifierInput.value;
+  if (!username) {
+    child.innerText = `Please enter a username`;
+  } else if (!verifier) {
+    child.innerText = `Please enter a verifier`;
+  } else {
+    generateOne(20, username, verifier)
+    .then((password) => {
+      child.innerText = password;
+    });
+  }
+  parent.appendChild(child);
+})
 
 const removeChildren = (element) => {
   while (element.firstChild) {

@@ -1,4 +1,4 @@
-import { passwordSafe } from './passwordSafe.js';
+const passwordSafe = require('./passwordSafe.js');
 
 const charcters = ` ~!@#$%^&*()_+\`-=[]\\{}|;':",./<>?qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890`;
 
