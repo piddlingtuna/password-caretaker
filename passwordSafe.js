@@ -46,10 +46,10 @@ const notUsername = (password, username) => {
 const notVerifier = (password, verifier) => {
     for (let i = 0; i < verifier.length; i++) {
         if (password.toLowerCase().includes(verifier[i].toLowerCase())) {
-            return false;
+            return true;
         }
     }
-    return true;
+    return false;
 }
 
 const manyRepeats = (password) => {
@@ -61,8 +61,9 @@ const manyRepeats = (password) => {
 
 const isCommon = (password) => {
     password = password.toLowerCase();
-    for (let i = 0; i < longCommon.length; i++) {
-        if (password == longCommon[i]) {
+    const commonWords = fs.readFileSync('longCommon.txt').toString().split(`\n`);
+    for (let i = 0; i < commonWords.length; i++) {
+        if (password == commonWords[i]) {
             return true;
         }
     }
@@ -86,4 +87,3 @@ const wasBreached = async (password) => {
 }
 
 module.exports = passwordSafe;
-

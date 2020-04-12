@@ -2,7 +2,7 @@ const passwordSafe = require('./passwordSafe.js');
 const generateSafe = require('./generateSafe.js');
 const generateOne = require('./generateOne.js');
 
-let verifier = ""
+let verifier = []
 chrome.storage.sync.get(['title'], (response) => {
   verifier = response.title;
   console.log(verifier)

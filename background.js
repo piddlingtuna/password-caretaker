@@ -17,9 +17,9 @@ chrome.runtime.onMessage.addListener((request) => {
       title: request.title.split(" ")
     });
   } else if (request.type === "test") {
-    let title = ""
+    let title = []
     chrome.storage.sync.get(['title'], (response) => {
-      title = response.title;
+      title = response.title.split(" ")
     })
     passwordSafe(request.password, request.username, title)
     .then((safe) => {
