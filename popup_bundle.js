@@ -3338,12 +3338,12 @@ const allCommon = [
 
 module.exports = allCommon;
 },{}],2:[function(require,module,exports){
-const passwordSafe = require('./passwordSafe.js');
+const passwordSafe = require(`./passwordSafe.js`);
 
 const charcters = ` ~!@#$%^&*()_+\`-=[]\\{}|;':",./<>?qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890`;
 
 const generateOnce = async (length, username, verifier) => {
-    let password = ''
+    let password = ``;
     let safe = false;
     while (!safe) {
         password = generatePassword(length);
@@ -3353,7 +3353,7 @@ const generateOnce = async (length, username, verifier) => {
 }
 
 const generatePassword = (length) => {
-    let password = '';
+    let password = ``;
     for (let i = 0; i < length; i++) {
         const index = Math.floor(Math.random() * charcters.length);
         password += charcters[index];
@@ -3364,12 +3364,12 @@ const generatePassword = (length) => {
 module.exports = generateOnce;
 
 },{"./passwordSafe.js":32}],3:[function(require,module,exports){
-const passwordSafe = require('./passwordSafe.js');
+const passwordSafe = require(`./passwordSafe.js`);
 
-const allCommon = require('./allCommon.js');
+const allCommon = require(`./allCommon.js`);
 
 const generateSafe = async (numWords, username, verifier) => {
-    let password = ''
+    let password = ``;
     let safe = false;
     while (!safe) {
         password = generatePassword(numWords, allCommon);
@@ -3379,12 +3379,12 @@ const generateSafe = async (numWords, username, verifier) => {
 }
 
 const generatePassword = (numWords, commonWords) => {
-    let password = '';
+    let password = ``;
     for (let i = 0; i < numWords; i++) {
         const index = Math.floor(Math.random() * commonWords.length);
         password += commonWords[index];
         if (i != numWords - 1) {
-            password += ' ';
+            password += ` `;
         }
     }
     return password;
@@ -7865,42 +7865,42 @@ module.exports = {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],32:[function(require,module,exports){
-const axios = require('axios');
-const jshashes = require('jshashes');
+const axios = require(`axios`);
+const jshashes = require(`jshashes`);
 
-const longCommon = require('./longCommon.js');
+const longCommon = require(`./longCommon.js`);
 
 const minPasswordLength = 8;
 const maxCharacterRepeats = 4;
 
 const passwordSafe = async (password, username, verifier) => {
     if (password.length < minPasswordLength) {
-        // Password is too short.
+        console.log(`Password is too short.`);
         return false;
     }
     if (password.replace(/\s+/g, ``) < minPasswordLength) {
-        // Password is too short removing consecutive spaces.
+        console.log(`Password is too short removing consecutive spaces.`);
         return false;
     }
     if (notUsername(password, username)) {
-        // Password is associated with username.
+        console.log(`Password is associated with username.`);
         return false;
     }
     if (notVerifier(password, verifier)) {
-        // Password is associated with verifier.
+        console.log(`Password is associated with verifier.`);
         return false;
     }
     if (manyRepeats(password)) {
-        // Password contained too many repeated characters.
+        console.log(`Password contained too many repeated characters.`);
         return false;
     }
     if (isCommon(password)) {
-        // Password is a common word.
+        console.log(`Password is a common word.`);
         return false;
     }
     const breached = await wasBreached(password);
     if (breached) {
-        // Password was found in a prior data breach.
+        console.log(`Password was found in a prior data breach.`);
         return false;
     }
     return true;
@@ -7943,7 +7943,7 @@ const wasBreached = async (password) => {
     let frequency = 0;
     const response = await axios.get(`${url}${hashedPassword.substring(0, 5)}`);
     const data = response.data.split(`\r\n`);
-    for (let i = 0; i < data.length && frequency === 0; i ++) {
+    for (let i = 0; i < data.length && frequency === 0; i++) {
         if (data[i].split(`:`)[0] === hashedPassword.substring(5).toUpperCase()) {
             console.log(`${password} is not safe.`);
             return true;
@@ -7955,41 +7955,41 @@ const wasBreached = async (password) => {
 module.exports = passwordSafe;
 
 },{"./longCommon.js":4,"axios":5,"jshashes":31}],33:[function(require,module,exports){
-const passwordSafe = require('./passwordSafe.js');
-const generateSafe = require('./generateSafe.js');
-const generateOne = require('./generateOne.js');
+const passwordSafe = require(`./passwordSafe.js`);
+const generateSafe = require(`./generateSafe.js`);
+const generateOne = require(`./generateOne.js`);
 
 let verifier = [];
-chrome.storage.sync.get(['title'], (response) => {
+chrome.storage.sync.get([`title`], (response) => {
   verifier = response.title;
 });
 
-const usernameInput = document.getElementById('username-input');
-usernameInput.addEventListener('input', () => {
+const usernameInput = document.getElementById(`username-input`);
+usernameInput.addEventListener(`input`, () => {
   if (usernameInput.value) {
-    usernameInput.classList.add('is-success');
-    usernameInput.classList.remove('is-danger');
+    usernameInput.classList.add(`is-success`);
+    usernameInput.classList.remove(`is-danger`);
   } else {
-    usernameInput.classList.add('is-danger');
-    usernameInput.classList.remove('is-success');
+    usernameInput.classList.add(`is-danger`);
+    usernameInput.classList.remove(`is-success`);
   }
 });
 
-const passwordInput = document.getElementById('password-input');
-passwordInput.addEventListener('input', () => {
+const passwordInput = document.getElementById(`password-input`);
+passwordInput.addEventListener(`input`, () => {
   if (passwordInput.value) {
-    passwordInput.classList.add('is-success');
-    passwordInput.classList.remove('is-danger');
+    passwordInput.classList.add(`is-success`);
+    passwordInput.classList.remove(`is-danger`);
   } else {
-    passwordInput.classList.add('is-danger');
-    passwordInput.classList.remove('is-success');
+    passwordInput.classList.add(`is-danger`);
+    passwordInput.classList.remove(`is-success`);
   }
 });
 
-const checkSafe = document.getElementById('check-safe');
-checkSafe.addEventListener('click', () => {
-  const parent = document.getElementById('check-safe-result');
-  const button = document.getElementById('button-check-safe');
+const checkSafe = document.getElementById(`check-safe`);
+checkSafe.addEventListener(`click`, () => {
+  const parent = document.getElementById(`check-safe-result`);
+  const button = document.getElementById(`button-check-safe`);
   const username = usernameInput.value;
   const password = passwordInput.value;
   if (!username) {
@@ -8001,66 +8001,66 @@ checkSafe.addEventListener('click', () => {
     .then((safe) => {
       if (safe) {
         parent.innerText =  `Your password is safe.`;
-        if (button.classList.contains('is-danger')) {
-          button.classList.remove('is-danger');
+        if (button.classList.contains(`is-danger`)) {
+          button.classList.remove(`is-danger`);
         }
-        if (!button.classList.contains('is-success')) {
-          button.classList.add('is-success');
+        if (!button.classList.contains(`is-success`)) {
+          button.classList.add(`is-success`);
         }
-        if (parent.classList.contains('is-danger')) {
-          parent.classList.remove('is-danger');
+        if (parent.classList.contains(`is-danger`)) {
+          parent.classList.remove(`is-danger`);
         }
-        if (!parent.classList.contains('is-success')) {
-          parent.classList.add('is-success');
+        if (!parent.classList.contains(`is-success`)) {
+          parent.classList.add(`is-success`);
         }
       } else {
-        parent.innerText = `Your password is NOT safe`;
-        if (button.classList.contains('is-success')) {
-          button.classList.remove('is-success');
+        parent.innerText = `Your password is NOT safe.`;
+        if (button.classList.contains(`is-success`)) {
+          button.classList.remove(`is-success`);
         }
-        if (!button.classList.contains('is-danger')) {
-          button.classList.add('is-danger');
+        if (!button.classList.contains(`is-danger`)) {
+          button.classList.add(`is-danger`);
         }
-        if (parent.classList.contains('is-danger')) {
-          parent.classList.remove('is-danger');
+        if (parent.classList.contains(`is-danger`)) {
+          parent.classList.remove(`is-danger`);
         }
-        if (!parent.classList.contains('is-success')) {
-          parent.classList.add('is-success');
+        if (!parent.classList.contains(`is-success`)) {
+          parent.classList.add(`is-success`);
         }
       }
     });
   }
 });
 
-const genSafe = document.getElementById('gen-safe');
-genSafe.addEventListener('click', () => {
-  const parent = document.getElementById('gen-safe-result');
+const genSafe = document.getElementById(`gen-safe`);
+genSafe.addEventListener(`click`, () => {
+  const parent = document.getElementById(`gen-safe-result`);
   const username = usernameInput.value;
   if (!username) {
-    parent.innerText = `Please enter a username`;
+    parent.innerText = `Please enter a username.`;
   } else {
     generateSafe(7, username, verifier)
     .then((password) => {
       parent.innerText = password;
-      if (!parent.classList.contains('is-success')) {
-        parent.classList.add('is-success');
+      if (!parent.classList.contains(`is-success`)) {
+        parent.classList.add(`is-success`);
       }
     });
   }
 });
 
-const genOne = document.getElementById('gen-one');
-genOne.addEventListener('click', () => {
-  const parent = document.getElementById('gen-one-result');
+const genOne = document.getElementById(`gen-one`);
+genOne.addEventListener(`click`, () => {
+  const parent = document.getElementById(`gen-one-result`);
   const username = usernameInput.value;
   if (!username) {
-    parent.innerText = `Please enter a username`;
+    parent.innerText = `Please enter a username.`;
   } else {
     generateOne(20, username, verifier)
     .then((password) => {
       parent.innerText = password;
-      if (!parent.classList.contains('is-success')) {
-        parent.classList.add('is-success');
+      if (!parent.classList.contains(`is-success`)) {
+        parent.classList.add(`is-success`);
       }
     });
   }

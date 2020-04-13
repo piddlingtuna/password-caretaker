@@ -1,11 +1,11 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-const passwordSafe = require('./passwordSafe.js');
+const passwordSafe = require(`./passwordSafe.js`);
 
 chrome.runtime.onInstalled.addListener(() => {
   chrome.declarativeContent.onPageChanged.removeRules(undefined, () => {
     chrome.declarativeContent.onPageChanged.addRules([{
       conditions: [new chrome.declarativeContent.PageStateMatcher({
-        css: ["input[type='password']"]
+        css: ["input[type=`password`]"]
       })],
         actions: [new chrome.declarativeContent.ShowPageAction()]
     }]);
@@ -13,16 +13,16 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 chrome.runtime.onMessage.addListener((request) => {
-  if (request.type === "title") {
+  if (request.type === `title`) {
     chrome.storage.sync.set({
-      title: request.title.split(" ")
+      title: request.title.split(` `)
     });
-  } else if (request.type === "test") {
-    passwordSafe(request.password, request.username, request.title.split(" "))
+  } else if (request.type === `test`) {
+    passwordSafe(request.password, request.username, request.title.split(` `))
     .then((safe) => {
       if (!safe) {
         chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
-          chrome.tabs.sendMessage(tabs[0].id, {type: "unsafe"})
+          chrome.tabs.sendMessage(tabs[0].id, {type: `unsafe`})
         });
       }
     })
@@ -4502,42 +4502,42 @@ module.exports = {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],30:[function(require,module,exports){
-const axios = require('axios');
-const jshashes = require('jshashes');
+const axios = require(`axios`);
+const jshashes = require(`jshashes`);
 
-const longCommon = require('./longCommon.js');
+const longCommon = require(`./longCommon.js`);
 
 const minPasswordLength = 8;
 const maxCharacterRepeats = 4;
 
 const passwordSafe = async (password, username, verifier) => {
     if (password.length < minPasswordLength) {
-        // Password is too short.
+        console.log(`Password is too short.`);
         return false;
     }
     if (password.replace(/\s+/g, ``) < minPasswordLength) {
-        // Password is too short removing consecutive spaces.
+        console.log(`Password is too short removing consecutive spaces.`);
         return false;
     }
     if (notUsername(password, username)) {
-        // Password is associated with username.
+        console.log(`Password is associated with username.`);
         return false;
     }
     if (notVerifier(password, verifier)) {
-        // Password is associated with verifier.
+        console.log(`Password is associated with verifier.`);
         return false;
     }
     if (manyRepeats(password)) {
-        // Password contained too many repeated characters.
+        console.log(`Password contained too many repeated characters.`);
         return false;
     }
     if (isCommon(password)) {
-        // Password is a common word.
+        console.log(`Password is a common word.`);
         return false;
     }
     const breached = await wasBreached(password);
     if (breached) {
-        // Password was found in a prior data breach.
+        console.log(`Password was found in a prior data breach.`);
         return false;
     }
     return true;
@@ -4580,7 +4580,7 @@ const wasBreached = async (password) => {
     let frequency = 0;
     const response = await axios.get(`${url}${hashedPassword.substring(0, 5)}`);
     const data = response.data.split(`\r\n`);
-    for (let i = 0; i < data.length && frequency === 0; i ++) {
+    for (let i = 0; i < data.length && frequency === 0; i++) {
         if (data[i].split(`:`)[0] === hashedPassword.substring(5).toUpperCase()) {
             console.log(`${password} is not safe.`);
             return true;
