@@ -64,11 +64,11 @@ checkSafe.addEventListener(`click`, () => {
         if (!button.classList.contains(`is-danger`)) {
           button.classList.add(`is-danger`);
         }
-        if (parent.classList.contains(`is-danger`)) {
-          parent.classList.remove(`is-danger`);
+        if (parent.classList.contains(`is-success`)) {
+          parent.classList.remove(`is-success`);
         }
-        if (!parent.classList.contains(`is-success`)) {
-          parent.classList.add(`is-success`);
+        if (!parent.classList.contains(`is-danger`)) {
+          parent.classList.add(`is-danger`);
         }
       }
     });
