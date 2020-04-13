@@ -4,7 +4,7 @@ chrome.runtime.onInstalled.addListener(() => {
   chrome.declarativeContent.onPageChanged.removeRules(undefined, () => {
     chrome.declarativeContent.onPageChanged.addRules([{
       conditions: [new chrome.declarativeContent.PageStateMatcher({
-        css: ["input[type=`password`]"]
+        css: ["input[type='password']"]
       })],
         actions: [new chrome.declarativeContent.ShowPageAction()]
     }]);
