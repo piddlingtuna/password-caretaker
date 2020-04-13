@@ -7875,32 +7875,32 @@ const maxCharacterRepeats = 4;
 
 const passwordSafe = async (password, username, verifier) => {
     if (password.length < minPasswordLength) {
-        // console.log('Password is too short.')
+        // Password is too short.
         return false;
     }
     if (password.replace(/\s+/g, ``) < minPasswordLength) {
-        // console.log('Password is too short removing consecutive spaces.');
+        // Password is too short removing consecutive spaces.
         return false;
     }
     if (notUsername(password, username)) {
-        // console.log('Password is associated with username.');
+        // Password is associated with username.
         return false;
     }
     if (notVerifier(password, verifier)) {
-        // console.log('Password is associated with verifier.');
+        // Password is associated with verifier.
         return false;
     }
     if (manyRepeats(password)) {
-        // console.log('Password contained too many repeated characters.');
+        // Password contained too many repeated characters.
         return false;
     }
     if (isCommon(password)) {
-        // console.log('Password is a common word.');
+        // Password is a common word.
         return false;
     }
     const breached = await wasBreached(password);
     if (breached) {
-        // console.log('Password was found in a prior data breach.');
+        // Password was found in a prior data breach.
         return false;
     }
     return true;
@@ -7989,66 +7989,82 @@ passwordInput.addEventListener('input', () => {
 const checkSafe = document.getElementById('check-safe');
 checkSafe.addEventListener('click', () => {
   const parent = document.getElementById('check-safe-result');
-  removeChildren(parent);
-  const child = document.createElement('div');
+  const button = document.getElementById('button-check-safe');
   const username = usernameInput.value;
   const password = passwordInput.value;
   if (!username) {
-    child.innerText = `Please enter a username.`;
+    parent.innerText = `Please enter a username.`;
   } else if (!password) {
-    child.innerText = `Please enter a password.`;
+    parent.innerText = `Please enter a password.`;
   } else {
     passwordSafe(password, username, verifier)
     .then((safe) => {
       if (safe) {
-        child.innerText =  `Your password is safe.`;
+        parent.innerText =  `Your password is safe.`;
+        if (button.classList.contains('is-danger')) {
+          button.classList.remove('is-danger');
+        }
+        if (!button.classList.contains('is-success')) {
+          button.classList.add('is-success');
+        }
+        if (parent.classList.contains('is-danger')) {
+          parent.classList.remove('is-danger');
+        }
+        if (!parent.classList.contains('is-success')) {
+          parent.classList.add('is-success');
+        }
       } else {
-        child.innerText = `Your password is NOT safe`;
+        parent.innerText = `Your password is NOT safe`;
+        if (button.classList.contains('is-success')) {
+          button.classList.remove('is-success');
+        }
+        if (!button.classList.contains('is-danger')) {
+          button.classList.add('is-danger');
+        }
+        if (parent.classList.contains('is-danger')) {
+          parent.classList.remove('is-danger');
+        }
+        if (!parent.classList.contains('is-success')) {
+          parent.classList.add('is-success');
+        }
       }
     });
   }
-  parent.appendChild(child);
 });
 
 const genSafe = document.getElementById('gen-safe');
 genSafe.addEventListener('click', () => {
   const parent = document.getElementById('gen-safe-result');
-  removeChildren(parent);
-  const child = document.createElement('div');
   const username = usernameInput.value;
   if (!username) {
-    child.innerText = `Please enter a username`;
+    parent.innerText = `Please enter a username`;
   } else {
     generateSafe(7, username, verifier)
     .then((password) => {
-      child.innerText = password;
+      parent.innerText = password;
+      if (!parent.classList.contains('is-success')) {
+        parent.classList.add('is-success');
+      }
     });
   }
-  parent.appendChild(child);
 });
 
 const genOne = document.getElementById('gen-one');
 genOne.addEventListener('click', () => {
   const parent = document.getElementById('gen-one-result');
-  removeChildren(parent);
-  const child = document.createElement('div');
   const username = usernameInput.value;
   if (!username) {
-    child.innerText = `Please enter a username`;
+    parent.innerText = `Please enter a username`;
   } else {
     generateOne(20, username, verifier)
     .then((password) => {
-      child.innerText = password;
+      parent.innerText = password;
+      if (!parent.classList.contains('is-success')) {
+        parent.classList.add('is-success');
+      }
     });
   }
-  parent.appendChild(child);
 })
-
-const removeChildren = (element) => {
-  while (element.firstChild) {
-    element.removeChild(element.lastChild);
-  }
-}
 
 },{"./generateOne.js":2,"./generateSafe.js":3,"./passwordSafe.js":32}],34:[function(require,module,exports){
 // shim for using process in browser

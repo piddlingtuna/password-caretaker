@@ -23,13 +23,15 @@
 
             <div id="check-safe" class="field">
                 <p class="control">
-                    <button class="button is-success">
+                    <button id="button-check-safe" class="button is-success">
                     Check Safe
                     </button>
                 </p>
             </div>
 
-            <div id="check-safe-result" class="field">
+            <div class="control field">
+                <textarea id="check-safe-result" class="textarea has-fixed-size" rows="1" readonly>
+                </textarea>
             </div>
 
             <div id="gen-safe" class="field">
@@ -40,7 +42,9 @@
                 </p>
             </div>
 
-            <div id="gen-safe-result" class="field">
+            <div class="control field">
+                <textarea id="gen-safe-result" class="textarea has-fixed-size" rows="3" readonly>
+                </textarea>
             </div>
 
             <div id="gen-one" class="field">
@@ -51,8 +55,11 @@
                 </p>
             </div>
 
-            <div id="gen-one-result" class="field">
+            <div class="control field">
+                <textarea id="gen-one-result" class="textarea has-fixed-size" rows="1" readonly>
+                </textarea>
             </div>
+   
         </div>
         <script type="module" src="/popup_bundle.js"></script>
     </body>

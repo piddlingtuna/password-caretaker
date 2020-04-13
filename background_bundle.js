@@ -18,7 +18,6 @@ chrome.runtime.onMessage.addListener((request) => {
       title: request.title.split(" ")
     });
   } else if (request.type === "test") {
-    alert(request.title);
     passwordSafe(request.password, request.username, request.title.split(" "))
     .then((safe) => {
       if (!safe) {
@@ -4513,32 +4512,32 @@ const maxCharacterRepeats = 4;
 
 const passwordSafe = async (password, username, verifier) => {
     if (password.length < minPasswordLength) {
-        // console.log('Password is too short.')
+        // Password is too short.
         return false;
     }
     if (password.replace(/\s+/g, ``) < minPasswordLength) {
-        // console.log('Password is too short removing consecutive spaces.');
+        // Password is too short removing consecutive spaces.
         return false;
     }
     if (notUsername(password, username)) {
-        // console.log('Password is associated with username.');
+        // Password is associated with username.
         return false;
     }
     if (notVerifier(password, verifier)) {
-        // console.log('Password is associated with verifier.');
+        // Password is associated with verifier.
         return false;
     }
     if (manyRepeats(password)) {
-        // console.log('Password contained too many repeated characters.');
+        // Password contained too many repeated characters.
         return false;
     }
     if (isCommon(password)) {
-        // console.log('Password is a common word.');
+        // Password is a common word.
         return false;
     }
     const breached = await wasBreached(password);
     if (breached) {
-        // console.log('Password was found in a prior data breach.');
+        // Password was found in a prior data breach.
         return false;
     }
     return true;
