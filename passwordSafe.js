@@ -1,7 +1,7 @@
-const axios = require('axios');
-const jshashes = require('jshashes');
+const axios = require(`axios`);
+const jshashes = require(`jshashes`);
 
-const longCommon = require('./longCommon.js');
+const longCommon = require(`./longCommon.js`);
 
 const minPasswordLength = 8;
 const maxCharacterRepeats = 4;
@@ -76,7 +76,7 @@ const wasBreached = async (password) => {
     let frequency = 0;
     const response = await axios.get(`${url}${hashedPassword.substring(0, 5)}`);
     const data = response.data.split(`\r\n`);
-    for (let i = 0; i < data.length && frequency === 0; i ++) {
+    for (let i = 0; i < data.length && frequency === 0; i++) {
         if (data[i].split(`:`)[0] === hashedPassword.substring(5).toUpperCase()) {
             console.log(`${password} is not safe.`);
             return true;

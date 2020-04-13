@@ -1,9 +1,9 @@
-const passwordSafe = require('./passwordSafe.js');
+const passwordSafe = require(`./passwordSafe.js`);
 
-const allCommon = require('./allCommon.js');
+const allCommon = require(`./allCommon.js`);
 
 const generateSafe = async (numWords, username, verifier) => {
-    let password = ''
+    let password = ``;
     let safe = false;
     while (!safe) {
         password = generatePassword(numWords, allCommon);
@@ -13,12 +13,12 @@ const generateSafe = async (numWords, username, verifier) => {
 }
 
 const generatePassword = (numWords, commonWords) => {
-    let password = '';
+    let password = ``;
     for (let i = 0; i < numWords; i++) {
         const index = Math.floor(Math.random() * commonWords.length);
         password += commonWords[index];
         if (i != numWords - 1) {
-            password += ' ';
+            password += ` `;
         }
     }
     return password;

@@ -1,9 +1,9 @@
-const passwordSafe = require('./passwordSafe.js');
+const passwordSafe = require(`./passwordSafe.js`);
 
 const charcters = ` ~!@#$%^&*()_+\`-=[]\\{}|;':",./<>?qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890`;
 
 const generateOnce = async (length, username, verifier) => {
-    let password = ''
+    let password = ``;
     let safe = false;
     while (!safe) {
         password = generatePassword(length);
@@ -13,7 +13,7 @@ const generateOnce = async (length, username, verifier) => {
 }
 
 const generatePassword = (length) => {
-    let password = '';
+    let password = ``;
     for (let i = 0; i < length; i++) {
         const index = Math.floor(Math.random() * charcters.length);
         password += charcters[index];
