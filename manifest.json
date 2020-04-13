@@ -1,7 +1,7 @@
 {
   "name": "Password Caretaker",
   "version": "0.0.1",
-  "description": "COMP6841 Something Awesome",
+  "description": "A tool to safeguard your password security.",
   "permissions": ["activeTab", "declarativeContent", "storage"],
   "background": {
     "scripts": ["background_bundle.js"],

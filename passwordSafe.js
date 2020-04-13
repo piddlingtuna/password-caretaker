@@ -8,32 +8,32 @@ const maxCharacterRepeats = 4;
 
 const passwordSafe = async (password, username, verifier) => {
     if (password.length < minPasswordLength) {
-        // Password is too short.
+        console.log(`Password is too short.`);
         return false;
     }
     if (password.replace(/\s+/g, ``) < minPasswordLength) {
-        // Password is too short removing consecutive spaces.
+        console.log(`Password is too short removing consecutive spaces.`);
         return false;
     }
     if (notUsername(password, username)) {
-        // Password is associated with username.
+        console.log(`Password is associated with username.`);
         return false;
     }
     if (notVerifier(password, verifier)) {
-        // Password is associated with verifier.
+        console.log(`Password is associated with verifier.`);
         return false;
     }
     if (manyRepeats(password)) {
-        // Password contained too many repeated characters.
+        console.log(`Password contained too many repeated characters.`);
         return false;
     }
     if (isCommon(password)) {
-        // Password is a common word.
+        console.log(`Password is a common word.`);
         return false;
     }
     const breached = await wasBreached(password);
     if (breached) {
-        // Password was found in a prior data breach.
+        console.log(`Password was found in a prior data breach.`);
         return false;
     }
     return true;
