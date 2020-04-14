@@ -78,7 +78,6 @@ const wasBreached = async (password) => {
     const data = response.data.split(`\r\n`);
     for (let i = 0; i < data.length && frequency === 0; i++) {
         if (data[i].split(`:`)[0] === hashedPassword.substring(5).toUpperCase()) {
-            console.log(`${password} is not safe.`);
             return true;
         }
     }
