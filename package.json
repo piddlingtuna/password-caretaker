@@ -1,7 +1,7 @@
 {
     "type": "module",
     "dependencies": {
-        "axios": "^0.19.2",
+        "axios": "^0.21.1",
         "bulma": "^0.8.1",
         "jshashes": "^1.0.8"
     }
